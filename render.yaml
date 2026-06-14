@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: phishguard-ai
+    env: docker
+    plan: free
+    region: oregon
+    healthCheckPath: /health
+    envVars:
+      - key: VT_API_KEY
+        sync: false
+      - key: PORT
+        value: 10000

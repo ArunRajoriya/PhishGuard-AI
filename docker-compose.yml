@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  phishguard:
+    build: .
+    container_name: phishguard-ai
+    ports:
+      - "8000:8000"
+    environment:
+      - VT_API_KEY=${VT_API_KEY}
+    volumes:
+      - ./database:/app/database
+      - ./model:/app/model
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8000/health', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
