@@ -54,7 +54,7 @@ logs/
 # Machine Learning / Data Artifacts
 data/raw/
 data/processed/
-cache/
+
 
 # Large trained model artifacts
 model/*.pkl
