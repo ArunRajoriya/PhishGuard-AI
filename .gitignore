@@ -1,9 +1,38 @@
+# =========================================================
+# PhishGuard AI - .gitignore
+# =========================================================
+
+# -------------------------
 # Python
+# -------------------------
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
 .Python
+
+# -------------------------
+# Virtual environments
+# -------------------------
+venv/
+ENV/
+env/
+.venv/
+
+# -------------------------
+# Environment / secrets
+# -------------------------
+.env
+.env.local
+.env.*.local
+.env.*
+
+# Keep the example environment file
+!.env.example
+
+# -------------------------
+# Build / packaging
+# -------------------------
 build/
 develop-eggs/
 dist/
@@ -14,32 +43,29 @@ lib/
 lib64/
 parts/
 sdist/
-frontend/node_modules/
-var/
 wheels/
 *.egg-info/
 .installed.cfg
 *.egg
 
-# Virtual Environment
-venv/
-ENV/
-env/
-.venv
+# -------------------------
+# Frontend
+# -------------------------
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
 
-# Environment Variables
-.env
-.env.local
-.env.*.local
-.env.*
-
+# -------------------------
 # Database
+# -------------------------
 *.db
 *.sqlite
 *.sqlite3
 database/*.db
 
-# IDE
+# -------------------------
+# IDE / Editor
+# -------------------------
 .vscode/
 .idea/
 *.swp
@@ -47,31 +73,63 @@ database/*.db
 *~
 .DS_Store
 
+# -------------------------
 # Logs
+# -------------------------
 *.log
 logs/
 
-# Machine Learning / Data Artifacts
+# -------------------------
+# ML datasets / temporary data
+# -------------------------
 data/raw/
 data/processed/
 
+# Generated datasets
+*.csv
 
-# Large trained model artifacts
+# -------------------------
+# ML model artifacts
+# -------------------------
+# Models are large binary artifacts.
+# Do NOT commit them directly to GitHub.
 model/*.pkl
+model/*.joblib
+model/*.onnx
 
-# Generated ML evaluation artifacts
-model/*.csv
+# -------------------------
+# ML generated reports / metrics
+# -------------------------
+# Keep JSON metrics/schema files tracked.
+# Ignore only temporary/generated report formats.
+model/*.html
 
-# Testing
+# -------------------------
+# Python testing
+# -------------------------
 .pytest_cache/
 .coverage
 htmlcov/
 .tox/
+.nox/
 
+# -------------------------
+# Jupyter
+# -------------------------
+.ipynb_checkpoints/
+
+# -------------------------
 # Docker
+# -------------------------
 .dockerignore
 
+# -------------------------
 # OS
+# -------------------------
 Thumbs.db
-.vercel
-.env*
+.DS_Store
+
+# -------------------------
+# Vercel
+# -------------------------
+.vercel/
