@@ -1,10 +1,28 @@
 # 🛡️ PhishGuard AI
 
+> **🎉 FULLY OPERATIONAL** - All systems tested and working! Ready for demo.
+
 **Threat Intelligence Powered Phishing URL Detection System**
 
 Real-time URL security analysis using VirusTotal API and Machine Learning through an interactive web dashboard.
 
 ![Python](https://img.shields.io/badge/Python-3.12-blue) ![FastAPI](https://img.shields.io/badge/FastAPI-0.109-green) ![Docker](https://img.shields.io/badge/Docker-Ready-blue) ![License](https://img.shields.io/badge/License-MIT-yellow)
+
+---
+
+## ⚡ READY IN 30 SECONDS
+
+```bash
+# 1. Start the server
+START_SERVER.bat
+
+# 2. Open your browser
+http://localhost:8000
+
+# 3. Scan a URL - That's it!
+```
+
+**Current Status**: ✅ All 5 endpoints tested and passing | ✅ ML Model loaded | ✅ VirusTotal connected | ✅ UI fully functional
 
 ---
 

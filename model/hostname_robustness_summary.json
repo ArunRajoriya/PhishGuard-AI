@@ -1,0 +1,69 @@
+{
+  "total_tests": 87,
+  "correct_predictions": 56,
+  "overall_accuracy": 0.6436781609195402,
+  "phishing_predictions": 28,
+  "legitimate_predictions": 59,
+  "categories": {
+    "LEGITIMATE_MAJOR_SITES": {
+      "correct": 18,
+      "total": 18,
+      "accuracy": 1.0,
+      "average_phishing_probability": 0.1232206657928456
+    },
+    "LEGITIMATE_COMPLEX_URLS": {
+      "correct": 10,
+      "total": 10,
+      "accuracy": 1.0,
+      "average_phishing_probability": 0.05767970911782476
+    },
+    "SUSPICIOUS_SUBDOMAINS": {
+      "correct": 8,
+      "total": 10,
+      "accuracy": 0.8,
+      "average_phishing_probability": 0.6219372700345659
+    },
+    "BRAND_IMPERSONATION": {
+      "correct": 0,
+      "total": 10,
+      "accuracy": 0.0,
+      "average_phishing_probability": 0.036507119077630205
+    },
+    "CREDENTIAL_PATTERNS": {
+      "correct": 10,
+      "total": 10,
+      "accuracy": 1.0,
+      "average_phishing_probability": 0.9990860159377849
+    },
+    "IP_BASED_URLS": {
+      "correct": 0,
+      "total": 6,
+      "accuracy": 0.0,
+      "average_phishing_probability": 0.0031610874993160203
+    },
+    "OBFUSCATION": {
+      "correct": 5,
+      "total": 5,
+      "accuracy": 1.0,
+      "average_phishing_probability": 0.9814420583462361
+    },
+    "SUSPICIOUS_TLDS": {
+      "correct": 0,
+      "total": 8,
+      "accuracy": 0.0,
+      "average_phishing_probability": 0.008277359895566385
+    },
+    "LONG_COMPLEX_URLS": {
+      "correct": 0,
+      "total": 4,
+      "accuracy": 0.0,
+      "average_phishing_probability": 0.31877728253903365
+    },
+    "SUSPICIOUS_STRUCTURE": {
+      "correct": 5,
+      "total": 6,
+      "accuracy": 0.8333333333333334,
+      "average_phishing_probability": 0.6794623515802973
+    }
+  }
+}

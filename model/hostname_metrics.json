@@ -1,0 +1,23 @@
+{
+  "model": "LogisticRegression",
+  "feature_type": "hostname_character_tfidf",
+  "ngram_range": [
+    2,
+    5
+  ],
+  "max_features": 150000,
+  "validation": {
+    "accuracy": 0.8779548966859367,
+    "precision": 0.8685983672530758,
+    "recall": 0.9306411077711526,
+    "f1": 0.8985500350893887,
+    "roc_auc": 0.9322826380608528
+  },
+  "test": {
+    "accuracy": 0.877783393704546,
+    "precision": 0.8670586878819324,
+    "recall": 0.9274790330537741,
+    "f1": 0.8962517132471247,
+    "roc_auc": 0.9325537999504249
+  }
+}

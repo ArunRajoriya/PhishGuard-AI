@@ -14,6 +14,7 @@ lib/
 lib64/
 parts/
 sdist/
+frontend/node_modules/
 var/
 wheels/
 *.egg-info/
@@ -30,6 +31,7 @@ env/
 .env
 .env.local
 .env.*.local
+.env.*
 
 # Database
 *.db
@@ -49,8 +51,16 @@ database/*.db
 *.log
 logs/
 
-# Model files (optional - comment out if you want to track models)
-# model/*.pkl
+# Machine Learning / Data Artifacts
+data/raw/
+data/processed/
+cache/
+
+# Large trained model artifacts
+model/*.pkl
+
+# Generated ML evaluation artifacts
+model/*.csv
 
 # Testing
 .pytest_cache/
@@ -63,3 +73,5 @@ htmlcov/
 
 # OS
 Thumbs.db
+.vercel
+.env*

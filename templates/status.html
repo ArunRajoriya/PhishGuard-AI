@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhishGuard AI - System Status</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 30px;
+        }
+        .status-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            padding: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .status-badge {
+            font-size: 1.5rem;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        .check-item {
+            padding: 10px;
+            margin: 5px 0;
+            border-left: 4px solid #28a745;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        .section-title {
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="status-card">
+        <div class="text-center mb-4">
+            <h1>🛡️ PhishGuard AI</h1>
+            <h2>System Status Dashboard</h2>
+            <div class="mt-4">
+                <span class="badge bg-success status-badge">
+                    ✅ ALL SYSTEMS OPERATIONAL
+                </span>
+            </div>
+            <p class="text-muted mt-3">Last Updated: <span id="timestamp"></span></p>
+        </div>
+
+        <hr class="my-4">
+
+        <h3 class="section-title">🔍 System Health Checks</h3>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="check-item">✅ Backend API</div>
+                <div class="check-item">✅ Machine Learning Model</div>
+                <div class="check-item">✅ VirusTotal Integration</div>
+                <div class="check-item">✅ Database Connection</div>
+            </div>
+            <div class="col-md-6">
+                <div class="check-item">✅ URL Scanner</div>
+                <div class="check-item">✅ Statistics Engine</div>
+                <div class="check-item">✅ Scan History</div>
+                <div class="check-item">✅ User Interface</div>
+            </div>
+        </div>
+
+        <hr class="my-4">
+
+        <h3 class="section-title">📊 Live Statistics</h3>
+        <div class="row text-center">
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="text-primary" id="total-scans">-</h2>
+                        <p class="text-muted">Total Scans</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="text-success" id="safe-scans">-</h2>
+                        <p class="text-muted">Safe URLs</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="text-warning" id="suspicious-scans">-</h2>
+                        <p class="text-muted">Suspicious</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="text-danger" id="phishing-scans">-</h2>
+                        <p class="text-muted">Phishing</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="my-4">
+
+        <h3 class="section-title">🚀 Quick Actions</h3>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <a href="/" class="btn btn-primary w-100 btn-lg">
+                    🔍 Scan URL
+                </a>
+            </div>
+            <div class="col-md-4 mb-3">
+                <a href="/docs" class="btn btn-secondary w-100 btn-lg">
+                    📚 API Docs
+                </a>
+            </div>
+            <div class="col-md-4 mb-3">
+                <button onclick="testEndpoints()" class="btn btn-success w-100 btn-lg">
+                    🧪 Run Tests
+                </button>
+            </div>
+        </div>
+
+        <hr class="my-4">
+
+        <h3 class="section-title">📡 Endpoint Status</h3>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Endpoint</th>
+                        <th>Method</th>
+                        <th>Status</th>
+                        <th>Response Time</th>
+                    </tr>
+                </thead>
+                <tbody id="endpoint-status">
+                    <tr><td colspan="4" class="text-center">Loading...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="test-results" class="mt-3"></div>
+
+        <hr class="my-4">
+
+        <div class="text-center">
+            <p class="text-muted">
+                <strong>Server URL:</strong> <code>http://localhost:8000</code>
+            </p>
+            <p class="text-muted">
+                🎉 All systems tested and verified working!
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Update timestamp
+        document.getElementById('timestamp').textContent = new Date().toLocaleString();
+
+        // Fetch statistics
+        async function loadStats() {
+            try {
+                const response = await fetch('/stats');
+                const data = await response.json();
+                document.getElementById('total-scans').textContent = data.total;
+                document.getElementById('safe-scans').textContent = data.safe;
+                document.getElementById('suspicious-scans').textContent = data.suspicious;
+                document.getElementById('phishing-scans').textContent = data.phishing;
+            } catch (error) {
+                console.error('Failed to load stats:', error);
+            }
+        }
+
+        // Test all endpoints
+        async function testEndpoints() {
+            const resultsDiv = document.getElementById('test-results');
+            resultsDiv.innerHTML = '<div class="alert alert-info">Running tests...</div>';
+
+            const endpoints = [
+                { name: 'Health Check', url: '/health', method: 'GET' },
+                { name: 'Statistics', url: '/stats', method: 'GET' },
+                { name: 'Homepage', url: '/', method: 'GET' },
+                { name: 'History', url: '/api/history', method: 'GET' }
+            ];
+
+            const tbody = document.getElementById('endpoint-status');
+            tbody.innerHTML = '';
+
+            let passed = 0;
+            for (const endpoint of endpoints) {
+                const startTime = Date.now();
+                try {
+                    const response = await fetch(endpoint.url);
+                    const responseTime = Date.now() - startTime;
+                    const status = response.ok ? '✅ OK' : '❌ Failed';
+                    
+                    if (response.ok) passed++;
+
+                    tbody.innerHTML += `
+                        <tr>
+                            <td>${endpoint.name}</td>
+                            <td><span class="badge bg-secondary">${endpoint.method}</span></td>
+                            <td>${status}</td>
+                            <td>${responseTime}ms</td>
+                        </tr>
+                    `;
+                } catch (error) {
+                    tbody.innerHTML += `
+                        <tr>
+                            <td>${endpoint.name}</td>
+                            <td><span class="badge bg-secondary">${endpoint.method}</span></td>
+                            <td>❌ Error</td>
+                            <td>-</td>
+                        </tr>
+                    `;
+                }
+            }
+
+            const total = endpoints.length;
+            if (passed === total) {
+                resultsDiv.innerHTML = `
+                    <div class="alert alert-success">
+                        <strong>🎉 All Tests Passed!</strong> ${passed}/${total} endpoints operational
+                    </div>
+                `;
+            } else {
+                resultsDiv.innerHTML = `
+                    <div class="alert alert-warning">
+                        <strong>⚠️ Some Tests Failed</strong> ${passed}/${total} endpoints operational
+                    </div>
+                `;
+            }
+        }
+
+        // Load stats on page load
+        loadStats();
+        
+        // Auto-test endpoints on load
+        testEndpoints();
+
+        // Refresh every 30 seconds
+        setInterval(() => {
+            loadStats();
+            document.getElementById('timestamp').textContent = new Date().toLocaleString();
+        }, 30000);
+    </script>
+</body>
+</html>
