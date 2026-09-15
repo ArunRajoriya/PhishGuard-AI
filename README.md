@@ -1,360 +1,618 @@
 # 🛡️ PhishGuard AI
 
-> **🎉 FULLY OPERATIONAL** - All systems tested and working! Ready for demo.
+### AI-Powered Phishing URL Detection & Threat Intelligence Platform
 
-**Threat Intelligence Powered Phishing URL Detection System**
+PhishGuard AI is a production-oriented security platform that analyzes URLs using machine learning, threat intelligence, trusted-domain protection, risk scoring, Redis caching, PostgreSQL persistence, JWT authentication, and asynchronous background processing.
 
-Real-time URL security analysis using VirusTotal API and Machine Learning through an interactive web dashboard.
+🔗 **Live Demo:** https://phish-guard-ai-gamma.vercel.app/
 
-![Python](https://img.shields.io/badge/Python-3.12-blue) ![FastAPI](https://img.shields.io/badge/FastAPI-0.109-green) ![Docker](https://img.shields.io/badge/Docker-Ready-blue) ![License](https://img.shields.io/badge/License-MIT-yellow)
+🔗 **Backend API:** https://phishguard-ai-g1pz.onrender.com/
 
----
-
-## ⚡ READY IN 30 SECONDS
-
-```bash
-# 1. Start the server
-START_SERVER.bat
-
-# 2. Open your browser
-http://localhost:8000
-
-# 3. Scan a URL - That's it!
-```
-
-**Current Status**: ✅ All 5 endpoints tested and passing | ✅ ML Model loaded | ✅ VirusTotal connected | ✅ UI fully functional
+🔗 **GitHub:** https://github.com/ArunRajoriya/PhishGuard-AI
 
 ---
 
-## ✨ Features
+## 🚀 Overview
 
-- ✅ Real-time URL security analysis with VirusTotal API
-- 🤖 Machine Learning prediction with confidence scores
-- 🎯 Risk classification: Safe / Suspicious / Phishing
-- 🔴 Malicious vendor detection
-- 📊 Interactive Bootstrap UI with responsive design
-- ⚡ FastAPI REST backend with async support
-- 💾 SQLite database for scan history and statistics
-- 🐳 Production-ready Docker deployment
-- 📱 Mobile-friendly interface
+Phishing attacks frequently rely on deceptive URLs to trick users into revealing credentials or sensitive information.
 
----
+PhishGuard AI provides a layered URL analysis pipeline that combines:
 
-## 🚀 Quick Start
+- Machine learning
+- URL feature engineering
+- Threat intelligence
+- Trusted-domain verification
+- Risk scoring
+- Redis caching
+- PostgreSQL persistence
+- JWT authentication
+- API rate limiting
+- Asynchronous scan processing
 
-### **Option 1: Run Locally (Windows)**
+The system classifies URLs into:
 
-1. **Get VirusTotal API Key** (Free)
-   - Sign up at: https://www.virustotal.com/gui/join-us
-   - Copy your API key
+- 🟢 **SAFE**
+- 🟡 **SUSPICIOUS**
+- 🔴 **PHISHING**
 
-2. **Configure API Key**
-   - Open `.env` file
-   - Add: `VT_API_KEY=your_api_key_here`
-
-3. **Start Application**
-   ```bash
-   start.bat
-   ```
-
-4. **Access Application**
-   - Web UI: http://localhost:8000
-   - API Docs: http://localhost:8000/docs
-
-### **Option 2: Run with Docker**
-
-1. **Install Docker Desktop**
-   - Download from: https://www.docker.com/products/docker-desktop
-
-2. **Configure API Key**
-   - Edit `.env` file with your API key
-
-3. **Start with Docker**
-   ```bash
-   docker-compose up -d
-   ```
-
-4. **Access Application**
-   - Web UI: http://localhost:8000
-   - API Docs: http://localhost:8000/docs
+The goal is not simply to run an ML model, but to demonstrate how an ML capability can be integrated into a production-style software system.
 
 ---
 
-## 📋 Requirements
+# ✨ Key Features
 
-### Local Installation
-- Python 3.12 or higher
-- pip (Python package manager)
-- VirusTotal API key (free tier available)
+### 🤖 Machine Learning
 
-### Docker Installation
-- Docker Desktop
-- VirusTotal API key
+- Domain-generalized phishing URL detection
+- XGBoost-based URL classification
+- 40 URL-derived features
+- URL normalization and feature extraction
+- Unseen-domain evaluation
+- Model confidence and score reporting
 
----
+### 🛡️ Security Intelligence
 
-## 🎯 Usage
+- VirusTotal threat intelligence integration
+- Trusted-domain protection
+- Multi-signal risk evaluation
+- False-positive protection
+- SAFE / SUSPICIOUS / PHISHING classification
 
-### Web Interface
-1. Open http://localhost:8000
-2. Enter a URL in the input field
-3. Click "🔍 Scan URL"
-4. View detailed security analysis
+### ⚡ Backend Engineering
 
-### API Endpoints
+- FastAPI REST API
+- JWT authentication
+- PostgreSQL persistence
+- Redis caching
+- Redis-backed asynchronous job state
+- FastAPI BackgroundTasks
+- API rate limiting
+- Request ID tracing
+- External API timeout protection
+- Input validation
+- Security headers
 
-**Scan URL:**
-```bash
-curl -X POST "http://localhost:8000/scan" -d "url=https://example.com"
-```
+### 🎨 Frontend
 
-**Get Statistics:**
-```bash
-curl http://localhost:8000/stats
-```
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- Axios
+- Responsive dashboard
+- URL scanning interface
+- Scan history
+- Detailed scan results
 
-**Health Check:**
-```bash
-curl http://localhost:8000/health
-```
+### ☁️ Deployment
 
-**View History:**
-```bash
-curl http://localhost:8000/api/history
-```
-
----
-
-## 📁 Project Structure
-
-```
-PhishGuard-AI/
-├── app.py                  # Main FastAPI application
-├── virustotal.py          # VirusTotal API integration
-├── feature_extractor.py   # URL feature extraction
-├── predictor.py           # ML predictions
-├── database.py            # Database operations
-├── model/
-│   ├── model.pkl          # Trained ML model
-│   └── train_model.py     # Model training script
-├── templates/
-│   └── index.html         # Web interface
-├── static/
-│   ├── css/
-│   └── js/
-├── database/
-│   └── phishguard.db      # SQLite database
-├── Dockerfile             # Docker configuration
-├── docker-compose.yml     # Docker orchestration
-├── requirements.txt       # Python dependencies
-├── start.bat              # Windows startup script
-└── README.md              # This file
-```
+- Frontend deployed on Vercel
+- Backend deployed on Render
+- PostgreSQL database
+- Redis cache
+- Dockerized backend
+- GitHub-based deployment workflow
 
 ---
 
-## 🔧 Configuration
+# 🧠 Machine Learning
 
-### Environment Variables (.env)
-```env
-VT_API_KEY=your_virustotal_api_key
-```
+PhishGuard AI uses URL-based machine learning to identify phishing patterns without requiring the destination website to be opened.
 
-### VirusTotal API Limits (Free Tier)
-- 4 requests per minute
-- 500 requests per day
-- 15.5K requests per month
+The production URL model uses 40 engineered URL features including characteristics related to:
 
----
-
-## 🐳 Docker Commands
-
-```bash
-# Start application
-docker-compose up -d
-
-# View logs
-docker-compose logs -f
-
-# Stop application
-docker-compose down
-
-# Rebuild after changes
-docker-compose up -d --build
-
-# Check status
-docker-compose ps
-```
-
----
-
-## 🔍 How It Works
-
-1. **User Input** - URL entered in web interface
-2. **Validation** - URL format validation
-3. **VirusTotal Scan** - Query 70+ antivirus engines
-4. **Feature Extraction** - Extract URL characteristics
-5. **ML Prediction** - Machine learning analysis
-6. **Risk Assessment** - Combined threat analysis
-7. **Results Display** - Detailed security report
-8. **Database Storage** - Save scan history
-
----
-
-## 🤖 Machine Learning Features
-
-The ML model analyzes:
 - URL length
-- HTTPS presence
-- Hyphen count in URL
-- Number of dots in URL
-- Subdomain count
+- Hostname length
+- Path length
+- Slash count
+- HTTPS usage
+- Query parameters
+- Special characters
+- URL structure
+- Character ratios
+- Hostname characteristics
+
+## Model Evaluation
+
+The model was evaluated using domain-based splitting to reduce leakage between training and unseen domains.
+
+### Unseen-Domain Performance
+
+| Metric | Result |
+|---|---:|
+| Accuracy | 99.82% |
+| F1 Score | 99.82% |
+| ROC-AUC | 99.86% |
+
+The unseen-domain evaluation is important because phishing URLs from the same domains appearing in both training and testing can produce overly optimistic results.
 
 ---
 
-## 🔒 Security Features
+# 🔍 Scan Pipeline
 
-- ✅ Input validation and sanitization
-- ✅ API key protection via environment variables
-- ✅ Error handling with proper HTTP codes
-- ✅ CORS configuration for production
-- ✅ Non-root Docker user
-- ✅ Secure database operations
-- ✅ Request timeout handling
-
----
-
-## 🛠️ Troubleshooting
-
-### Port Already in Use
-```bash
-# Find and kill process on port 8000
-netstat -ano | findstr :8000
-taskkill /PID <PID> /F
+```text
+                   URL
+                    │
+                    ▼
+             URL Normalization
+                    │
+                    ▼
+             Input Validation
+                    │
+                    ▼
+             Feature Extraction
+                    │
+                    ▼
+             ┌───────────────┐
+             │   URL Model   │
+             │   XGBoost     │
+             └───────┬───────┘
+                     │
+          ┌──────────┴──────────┐
+          │                     │
+          ▼                     ▼
+ Threat Intelligence      Trusted Domain
+      VirusTotal             Check
+          │                     │
+          └──────────┬──────────┘
+                     ▼
+                Risk Engine
+                     │
+          ┌──────────┼──────────┐
+          ▼          ▼          ▼
+        SAFE     SUSPICIOUS   PHISHING
+          │          │          │
+          └──────────┼──────────┘
+                     ▼
+              Redis Cache
+                     │
+                     ▼
+               PostgreSQL
+                     │
+                     ▼
+               API Response
 ```
 
-### Missing Dependencies
+---
+
+# 🏗️ System Architecture
+
+```text
+                         ┌──────────────────────┐
+                         │    React Frontend    │
+                         │   Vercel Deployment  │
+                         └──────────┬───────────┘
+                                    │ HTTPS
+                                    ▼
+                         ┌──────────────────────┐
+                         │      FastAPI         │
+                         │    Render Service    │
+                         └──────────┬───────────┘
+                                    │
+          ┌─────────────────────────┼─────────────────────────┐
+          │                         │                         │
+          ▼                         ▼                         ▼
+   ┌──────────────┐        ┌────────────────┐        ┌──────────────┐
+   │ JWT Security │        │     Redis      │        │ PostgreSQL   │
+   │     Auth     │        │ Cache + Jobs   │        │ Scan History │
+   └──────────────┘        └───────┬────────┘        └──────────────┘
+                                    │
+                                    ▼
+                         ┌──────────────────────┐
+                         │ FastAPI Background   │
+                         │       Tasks          │
+                         └──────────┬───────────┘
+                                    │
+                ┌───────────────────┼───────────────────┐
+                │                   │                   │
+                ▼                   ▼                   ▼
+        ┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+        │ URL Feature  │    │ XGBoost URL  │    │ VirusTotal   │
+        │ Extraction   │    │    Model     │    │ Threat Intel │
+        └──────────────┘    └──────────────┘    └──────────────┘
+                                    │
+                                    ▼
+                         ┌──────────────────────┐
+                         │     Risk Engine      │
+                         │ SAFE / SUSPICIOUS /  │
+                         │       PHISHING       │
+                         └──────────────────────┘
+```
+
+---
+
+# ⚡ Asynchronous Scanning
+
+PhishGuard AI supports asynchronous URL scanning using FastAPI BackgroundTasks.
+
+```text
+Client
+  │
+  │ POST /api/v1/scan/async
+  ▼
+FastAPI
+  │
+  ├── Create scan job
+  │
+  ├── Store job state in Redis
+  │
+  └── Return HTTP 202
+          │
+          ▼
+   Background Task
+          │
+          ▼
+      perform_scan()
+          │
+          ▼
+      Update Redis
+          │
+          ▼
+   status = completed
+          │
+          ▼
+GET /api/v1/scan/{scan_id}
+```
+
+This allows the API to acknowledge the scan request without requiring a separate worker service.
+
+---
+
+# 🗄️ Data & Caching
+
+## PostgreSQL
+
+Used for persistent application data including:
+
+- Users
+- Scan history
+- Scan results
+
+## Redis
+
+Used for:
+
+- Scan result caching
+- Asynchronous job state
+- Rate limiting
+
+Caching repeated URL scans reduces unnecessary ML and external threat-intelligence processing.
+
+---
+
+# 🔐 Security
+
+PhishGuard AI includes multiple application-level security controls:
+
+- JWT-based authentication
+- Protected API endpoints
+- Request validation
+- URL length limits
+- Invalid URL rejection
+- Rate limiting
+- SQL injection-resistant database operations
+- External API timeout protection
+- Security response headers
+- Request ID tracing
+- Redis failure-tolerant behavior
+- Secrets stored through environment variables
+
+Secrets such as API keys, JWT secrets and database credentials are intentionally excluded from source control.
+
+---
+
+# 🧪 Testing
+
+The backend has been tested across multiple production-oriented scenarios.
+
+### Current test coverage
+
+- Authentication
+- Authorization
+- URL validation
+- Synchronous scanning
+- Asynchronous scanning
+- Redis caching
+- PostgreSQL persistence
+- Rate limiting
+- Concurrent requests
+- External API timeout handling
+- Redis failure handling
+- Malicious input handling
+- Security headers
+
+### Automated Tests
+
+**98 tests passing**
+
+Additional production sanity checks were performed for concurrency, rate limiting, Redis failure tolerance and deployed API behavior.
+
+---
+
+# 🛠️ Technology Stack
+
+## Backend
+
+- Python
+- FastAPI
+- SQLAlchemy
+- PostgreSQL
+- Redis
+- JWT
+- Pydantic
+
+## Machine Learning
+
+- XGBoost
+- Scikit-learn
+- Pandas
+- NumPy
+
+## Frontend
+
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- Axios
+- Recharts
+
+## DevOps & Infrastructure
+
+- Docker
+- Git
+- GitHub
+- Vercel
+- Render
+
+## Threat Intelligence
+
+- VirusTotal API
+
+---
+
+# 📁 Project Structure
+
+```text
+PhishGuard-AI/
+│
+├── frontend/
+│   ├── src/
+│   ├── public/
+│   ├── package.json
+│   └── ...
+│
+├── model/
+│   ├── domain_url_model.pkl
+│   └── domain_feature_schema.json
+│
+├── jobs/
+│   ├── scan_queue.py
+│   └── worker.py
+│
+├── utils/
+│   └── url_normalizer.py
+│
+├── docs/
+│   ├── architecture.md
+│   └── deployment.md
+│
+├── app.py
+├── predictor.py
+├── feature_extractor.py
+├── auth.py
+├── risk_engine.py
+├── Dockerfile
+├── requirements.txt
+├── .gitignore
+└── README.md
+```
+
+---
+
+# ☁️ Production Deployment
+
+### Frontend
+
+**Vercel**
+
+https://phish-guard-ai-gamma.vercel.app/
+
+### Backend
+
+**Render**
+
+https://phishguard-ai-g1pz.onrender.com/
+
+### Database
+
+PostgreSQL
+
+### Cache
+
+Redis
+
+### Containerization
+
+Docker
+
+---
+
+# ⚙️ Local Development
+
+## 1. Clone
+
+```bash
+git clone https://github.com/ArunRajoriya/PhishGuard-AI.git
+cd PhishGuard-AI
+```
+
+## 2. Create virtual environment
+
+```bash
+python -m venv venv
+```
+
+### Windows
+
+```powershell
+.\venv\Scripts\Activate.ps1
+```
+
+## 3. Install dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
 
-### Database Issues
-```bash
-# Delete corrupted database (will auto-recreate)
-del database\phishguard.db
+## 4. Configure environment variables
+
+Create a `.env` file:
+
+```env
+DATABASE_URL=your_database_url
+REDIS_URL=your_redis_url
+JWT_SECRET_KEY=your_secret
+VIRUSTOTAL_API_KEY=your_api_key
 ```
 
-### Docker Issues
+Never commit `.env` to Git.
+
+## 5. Run backend
+
 ```bash
-# Complete rebuild
-docker-compose down
-docker-compose build --no-cache
-docker-compose up -d
+uvicorn app:app --reload
+```
+
+Backend:
+
+```text
+http://localhost:8000
+```
+
+## 6. Run frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
 ```
 
 ---
 
-## 📊 API Documentation
+# 🔌 API
 
-Interactive API documentation available at:
-- **Swagger UI**: http://localhost:8000/docs
-- **ReDoc**: http://localhost:8000/redoc
+### Authentication
 
----
-
-## 🚀 Production Deployment
-
-### **Deploy to Render (Recommended - Free Tier Available!)**
-
-1. **Push to GitHub**
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial commit"
-   git push origin main
-   ```
-
-2. **Deploy to Render**
-   - Go to https://dashboard.render.com/
-   - Click "New +" → "Web Service"
-   - Connect your GitHub repository
-   - Set environment variable: `VT_API_KEY`
-   - Click "Create Web Service"
-   - Wait 5 minutes - Done! 🎉
-
-3. **Access Your App**
-   - Your URL: `https://your-app.onrender.com`
-
-**See [RENDER_DEPLOYMENT.md](RENDER_DEPLOYMENT.md) for detailed instructions**
-
-### **Other Deployment Options**
-
-#### Using Docker (Local/Server)
-```bash
-# 1. Set environment variables
-# 2. Build and deploy
-docker-compose up -d
-
-# 3. Monitor
-docker-compose logs -f
+```text
+POST /api/v1/auth/register
+POST /api/v1/auth/login
+GET  /api/v1/auth/me
 ```
 
-#### Using Cloud Platforms
-- **Render**: Free tier with auto-deploy (Recommended!)
-- **AWS EC2**: Deploy Docker container
-- **Google Cloud Run**: Use included Dockerfile
-- **Heroku**: Git push deployment
-- **DigitalOcean**: App Platform deployment
+### Scanning
+
+```text
+POST /api/v1/scan
+POST /api/v1/scan/async
+GET  /api/v1/scan/{scan_id}
+```
+
+### History
+
+```text
+GET /api/v1/history
+```
+
+Protected endpoints require:
+
+```text
+Authorization: Bearer <JWT>
+```
 
 ---
 
-## 📝 License
+# 📊 Example Results
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+### SAFE
 
----
+```text
+URL: https://google.com
 
-## 🙏 Acknowledgments
+Risk Score: 25/100
+Risk Level: SAFE
+Confidence: 90%
 
-- [VirusTotal](https://www.virustotal.com/) - Comprehensive threat intelligence API
-- [FastAPI](https://fastapi.tiangolo.com/) - Modern Python web framework
-- [scikit-learn](https://scikit-learn.org/) - Machine learning library
-- [Bootstrap](https://getbootstrap.com/) - Responsive UI framework
+Trusted Domain: Yes
+Cache: Redis
+```
 
----
+### SUSPICIOUS
 
-## 📞 Support
+```text
+URL: https://www.nerdscandy.com
 
-For issues and questions:
-- Check the troubleshooting section above
-- Review API documentation at `/docs`
-- Check if Docker is running properly
-- Verify VirusTotal API key is correct
+Risk Score: 32.44/100
+Risk Level: SUSPICIOUS
+Confidence: 42.69%
 
----
-
-## ⚠️ Disclaimer
-
-This tool is for educational and security research purposes. Always follow responsible disclosure practices when discovering security vulnerabilities.
-
----
-
-## 📈 System Requirements
-
-### Minimum
-- CPU: 1 core
-- RAM: 512 MB
-- Disk: 100 MB
-- Network: Internet connection
-
-### Recommended
-- CPU: 2 cores
-- RAM: 2 GB
-- Disk: 1 GB
-- Network: Stable internet connection
+URL ML Score: 92.69
+Trusted Domain: No
+```
 
 ---
 
-**Built with ❤️ for security and reliability**
+# 📸 Screenshots
 
-**Status:** ✅ Production Ready | **Version:** 1.0.0 | **License:** MIT
+Screenshots demonstrating the production dashboard and scan results will be added here.
+
+Recommended screenshots:
+
+1. Dashboard
+2. SAFE scan result
+3. SUSPICIOUS scan result
+4. Scan history
+
+---
+
+# 🎯 Engineering Highlights
+
+PhishGuard AI was designed to demonstrate practical software engineering concepts beyond machine learning:
+
+- REST API design
+- Authentication and authorization
+- Database persistence
+- Caching
+- Asynchronous processing
+- Rate limiting
+- Failure handling
+- External API integration
+- Containerization
+- Cloud deployment
+- Frontend/backend integration
+- ML model serving
+
+---
+
+# 🚧 Project Status
+
+**Production demo deployed and operational.**
+
+Core scanning, authentication, persistence, caching, asynchronous processing and frontend/backend integration have been validated in the deployed environment.
+
+---
+
+# 👨‍💻 Author
+
+### Arun Rajoriya
+
+Software Developer | Backend | AI/ML | Full Stack
+
+GitHub:  
+https://github.com/ArunRajoriya
+
+---
+
+## ⭐ If you find this project useful
+
+Consider giving the repository a star.
