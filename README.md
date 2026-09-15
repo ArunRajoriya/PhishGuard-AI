@@ -561,6 +561,11 @@ Trusted Domain: No
 ```
 
 ---
+## Architecture
+
+![PhishGuard AI Architecture](docs/architecture.png)
+
+For a detailed explanation of the architecture and request flows, see [`docs/architecture.md`](docs/architecture.md).
 
 # 📸 Screenshots
 
