@@ -14,7 +14,7 @@ from urllib.parse import urlparse
 from uuid import uuid4
 
 from dotenv import load_dotenv
-from fastapi import Depends, FastAPI, Form, HTTPException, Request
+from fastapi import BackgroundTasks, Depends, FastAPI, Form, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, JSONResponse
@@ -955,29 +955,272 @@ async def legacy_scan(request: Request, url: str = Form(...)):
 
 
 # ----------------------------- Async scanning -----------------------------
-def _queue_scan(request: Request, url: str):
+
+def _process_scan_in_background(scan_id: str) -> None:
+    """
+    Process an async scan inside the FastAPI web process.
+
+    Uses FastAPI BackgroundTasks so a separate worker service
+    is not required.
+    """
+
+    from jobs.scan_queue import get_scan_job, update_scan_job
+
+    job = get_scan_job(scan_id)
+
+    if job is None:
+        logger.warning(
+            "Background scan job not found | scan_id=%s",
+            scan_id,
+        )
+        return
+
+    url = job["url"]
+
+    logger.info(
+        "Background scan started | scan_id=%s | url=%s",
+        scan_id,
+        url,
+    )
+
+    update_scan_job(
+        scan_id,
+        status="processing",
+    )
+
+    started_at = perf_counter()
+
+    try:
+        result = perform_scan(
+            normalized_url=url,
+            request_id=f"async-{scan_id}",
+        )
+
+        duration_ms = (
+            perf_counter() - started_at
+        ) * 1000
+
+        update_scan_job(
+            scan_id,
+            status="completed",
+            result=result,
+            duration_ms=round(
+                duration_ms,
+                2,
+            ),
+        )
+
+        logger.info(
+            "Background scan completed | "
+            "scan_id=%s | duration=%.2fms",
+            scan_id,
+            duration_ms,
+        )
+
+    except Exception as exc:
+        duration_ms = (
+            perf_counter() - started_at
+        ) * 1000
+
+        logger.exception(
+            "Background scan failed | scan_id=%s",
+            scan_id,
+        )
+
+        update_scan_job(
+            scan_id,
+            status="failed",
+            error=str(exc),
+            duration_ms=round(
+                duration_ms,
+                2,
+            ),
+        )
+
+
+def _queue_scan(
+    request: Request,
+    url: str,
+    background_tasks: BackgroundTasks,
+):
+    """
+    Create an async scan job and process it using
+    FastAPI BackgroundTasks.
+    """
+
     rate_limit, rate_error = apply_rate_limit(request)
+
     if rate_error:
         return rate_error
+
     try:
         normalized = validate_url(url)
+
         job = create_scan_job(normalized)
-        response = {"success": True, "message": "Scan job queued successfully.", "scan_id": str(job["scan_id"]), "status": job["status"], "url": job["url"], "created_at": str(job["created_at"]), "request_id": _request_id(request)}
-        return JSONResponse(status_code=202, content=response, headers={"X-Request-ID": _request_id(request)})
+
+        scan_id = str(job["scan_id"])
+
+        background_tasks.add_task(
+            _process_scan_in_background,
+            scan_id,
+        )
+
+        response = {
+            "success": True,
+            "message": "Scan job queued successfully.",
+            "scan_id": scan_id,
+            "status": job["status"],
+            "url": job["url"],
+            "created_at": str(job["created_at"]),
+            "request_id": _request_id(request),
+        }
+
+        return JSONResponse(
+            status_code=202,
+            content=response,
+            headers={
+                "X-Request-ID": _request_id(request),
+            },
+        )
+
     except ValueError as exc:
-        return error_response(request, 400, "INVALID_URL", str(exc))
+        return error_response(
+            request,
+            400,
+            "INVALID_URL",
+            str(exc),
+        )
+
     except Exception:
-        logger.exception("Queue failure | request_id=%s", _request_id(request))
-        return error_response(request, 500, "QUEUE_ERROR", "Failed to queue scan job.")
+        logger.exception(
+            "Queue failure | request_id=%s",
+            _request_id(request),
+        )
 
-@app.post(f"{API_V1_PREFIX}/scan/async", response_model=AsyncScanResponse, status_code=202, tags=["Scan"], summary="Queue a URL scan")
-async def api_v1_async_scan(request: Request, payload: AsyncScanRequest, current_user: dict = Depends(get_current_user)):
-    return _queue_scan(request, payload.url)
+        return error_response(
+            request,
+            500,
+            "QUEUE_ERROR",
+            "Failed to queue scan job.",
+        )
 
-@app.post("/scan/async", tags=["Legacy"], summary="Legacy async URL scan")
-async def legacy_async_scan(request: Request, url: str = Form(...)):
-    return _queue_scan(request, url)
 
+@app.post(
+    f"{API_V1_PREFIX}/scan/async",
+    response_model=AsyncScanResponse,
+    status_code=202,
+    tags=["Scan"],
+    summary="Queue a URL scan",
+)
+async def api_v1_async_scan(
+    request: Request,
+    payload: AsyncScanRequest,
+    background_tasks: BackgroundTasks,
+    current_user: dict = Depends(get_current_user),
+):
+    return _queue_scan(
+        request,
+        payload.url,
+        background_tasks,
+    )
+
+
+@app.post(
+    "/scan/async",
+    tags=["Legacy"],
+    summary="Legacy async URL scan",
+)
+async def legacy_async_scan(
+    request: Request,
+    background_tasks: BackgroundTasks,
+    url: str = Form(...),
+):
+    return _queue_scan(
+        request,
+        url,
+        background_tasks,
+    )
+
+
+# ----------------------------- Async job status -----------------------------
+
+@app.get(
+    f"{API_V1_PREFIX}/scan/{{scan_id}}",
+    response_model=ScanStatusResponse,
+    tags=["Scan"],
+)
+async def api_v1_scan_status(
+    request: Request,
+    scan_id: str,
+    current_user: dict = Depends(get_current_user),
+):
+    if (
+        not scan_id
+        or len(scan_id) > 128
+        or not re.fullmatch(
+            r"[A-Za-z0-9_-]+",
+            scan_id,
+        )
+    ):
+        return error_response(
+            request,
+            400,
+            "INVALID_SCAN_ID",
+            "Invalid scan ID.",
+        )
+
+    job = get_scan_job(scan_id)
+
+    if job is None:
+        return error_response(
+            request,
+            404,
+            "SCAN_NOT_FOUND",
+            "Scan job not found.",
+            {
+                "scan_id": scan_id,
+            },
+        )
+
+    return {
+        "success": True,
+        "scan_id": scan_id,
+        "status": job.get(
+            "status",
+            "unknown",
+        ),
+        "url": job.get("url"),
+        "created_at": job.get("created_at"),
+        "result": job.get("result"),
+        "error": job.get("error"),
+        "request_id": _request_id(request),
+    }
+
+
+@app.get(
+    "/scan/{scan_id}",
+    tags=["Legacy"],
+    summary="Legacy async scan status",
+)
+async def legacy_scan_status(
+    request: Request,
+    scan_id: str,
+):
+    job = get_scan_job(scan_id)
+
+    if job is None:
+        return error_response(
+            request,
+            404,
+            "SCAN_NOT_FOUND",
+            "Scan job not found.",
+        )
+
+    return {
+        "success": True,
+        **job,
+        "request_id": _request_id(request),
+    }
 
 # ----------------------------- Async job status -----------------------------
 @app.get(f"{API_V1_PREFIX}/scan/{{scan_id}}", response_model=ScanStatusResponse, tags=["Scan"])
