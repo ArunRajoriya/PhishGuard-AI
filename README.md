@@ -120,7 +120,6 @@ The model was evaluated using domain-based splitting to reduce leakage between t
 
 | Metric | Result |
 |---|---:|
-| Accuracy | 99.82% |
 | F1 Score | 99.82% |
 | ROC-AUC | 99.86% |
 
@@ -570,14 +569,21 @@ Trusted Domain: No
 
 # 📸 Screenshots
 
-Screenshots demonstrating the production dashboard and scan results will be added here.
+### Security Dashboard
 
-Recommended screenshots:
+![PhishGuard AI Dashboard](docs/screenshots/dashboard.png)
 
-1. Dashboard
-2. SAFE scan result
-3. SUSPICIOUS scan result
-4. Scan history
+### SAFE URL Detection
+
+![SAFE URL Scan](docs/screenshots/safe-scan.png)
+
+### SUSPICIOUS URL Detection
+
+![SUSPICIOUS URL Scan](docs/screenshots/suspicious-scan.png)
+
+### Scan History
+
+![Scan History](docs/screenshots/scan-history.png)
 
 ---
 
