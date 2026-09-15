@@ -1060,8 +1060,18 @@ def _queue_scan(
 
         scan_id = str(job["scan_id"])
 
+        logger.info(
+            "ADDING BACKGROUND TASK | scan_id=%s",
+            scan_id,
+        )
+
         background_tasks.add_task(
             _process_scan_in_background,
+            scan_id,
+        )
+
+        logger.info(
+            "BACKGROUND TASK ADDED | scan_id=%s",
             scan_id,
         )
 
