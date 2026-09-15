@@ -28,6 +28,7 @@ load_dotenv(BASE_DIR / ".env")
 
 # Docker-friendly defaults. Explicit environment variables still win.
 IN_DOCKER = Path("/.dockerenv").exists()
+APP_ENV = os.getenv("APP_ENV", "development").strip().lower()
 if IN_DOCKER:
     if not os.getenv("DATABASE_URL_DOCKER") and os.getenv("DATABASE_URL", "").startswith(("postgresql://", "postgres://")):
         db_url = os.getenv("DATABASE_URL", "")
@@ -108,7 +109,7 @@ def db_initialize():
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     logger.info("Starting PhishGuard AI %s", app.version)
-    logger.info("Runtime: %s", "Docker" if IN_DOCKER else "Local")
+    logger.info("Runtime: %s", APP_ENV.capitalize()) 
 
     # Preload the heavy RandomForest once per worker, not on the first request.
     try:
