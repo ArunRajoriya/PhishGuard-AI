@@ -174,6 +174,11 @@ The unseen-domain evaluation is important because phishing URLs from the same do
 ```
 
 ---
+## Architecture
+
+![PhishGuard AI Architecture](docs/architecture.png)
+
+For a detailed explanation of the architecture and request flows, see [`docs/architecture.md`](docs/architecture.md).
 
 # 🏗️ System Architecture
 
@@ -561,11 +566,7 @@ Trusted Domain: No
 ```
 
 ---
-## Architecture
 
-![PhishGuard AI Architecture](docs/architecture.png)
-
-For a detailed explanation of the architecture and request flows, see [`docs/architecture.md`](docs/architecture.md).
 
 # 📸 Screenshots
 
