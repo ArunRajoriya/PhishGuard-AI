@@ -995,8 +995,25 @@ function DashboardOverview({
     view: DashboardView,
   ) => void
 }) {
-  const recent =
+const recent =
     history.slice(0, 5)
+
+const totalScans = history.length
+
+const safeCount = history.filter(
+    (item) =>
+      item.prediction.toUpperCase() === "SAFE",
+  ).length
+
+const suspiciousCount = history.filter(
+    (item) =>
+      item.prediction.toUpperCase() === "SUSPICIOUS",
+  ).length
+
+const phishingCount = history.filter(
+    (item) =>
+      item.prediction.toUpperCase() === "PHISHING",
+  ).length
 
 
   return (
@@ -1013,46 +1030,46 @@ function DashboardOverview({
       </div>
 
 
-      {/* Stats */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {/* Scan Summary */}
+<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
 
-        <StatCard
-          title="Total Scans"
-          value="—"
-          subtitle="Statistics parked"
-          icon={
-            <Activity className="h-5 w-5" />
-          }
-        />
+  <StatCard
+    title="Total Scans"
+    value={String(totalScans)}
+    subtitle="URLs analyzed"
+    icon={
+      <Activity className="h-5 w-5" />
+    }
+  />
 
-        <StatCard
-          title="Safe URLs"
-          value="—"
-          subtitle="Statistics parked"
-          icon={
-            <CheckCircle2 className="h-5 w-5" />
-          }
-        />
+  <StatCard
+    title="Safe URLs"
+    value={String(safeCount)}
+    subtitle="Low-risk results"
+    icon={
+      <CheckCircle2 className="h-5 w-5" />
+    }
+  />
 
-        <StatCard
-          title="Threats"
-          value="—"
-          subtitle="Statistics parked"
-          icon={
-            <ShieldAlert className="h-5 w-5" />
-          }
-        />
+  <StatCard
+    title="Suspicious"
+    value={String(suspiciousCount)}
+    subtitle="Requires attention"
+    icon={
+      <ShieldAlert className="h-5 w-5" />
+    }
+  />
 
-        <StatCard
-          title="History"
-          value={String(history.length)}
-          subtitle="Records loaded"
-          icon={
-            <History className="h-5 w-5" />
-          }
-        />
+  <StatCard
+    title="Phishing"
+    value={String(phishingCount)}
+    subtitle="High-risk results"
+    icon={
+      <ShieldAlert className="h-5 w-5" />
+    }
+  />
 
-      </div>
+</div>
 
 
       {/* Recent scans */}
